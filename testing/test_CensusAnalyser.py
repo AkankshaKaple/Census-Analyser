@@ -1,41 +1,72 @@
+from CensusAnalyser import CensusAnalyser
 from CensusAnalyserError import CensusAnalyserError
-from CsvLoader import CSVLoader
 import pytest
 
-CENSUS_CSV_FILE_PATH = "/home/akanksha/PycharmProjects/CensusAnalyzer/Data/IndiaStateCensusData.csv"
-CENSUS_CSV_FILE_WRONG_PATH = "IndiaStateCensusData.csv"
-CENSUS_CSV_FILE_WRONG_TYPE = "/home/akanksha/PycharmProjects/CensusAnalyzer/Data/USCensusData.xls"
 
-# NOTE - Change delimiter of the file and save it
-CENSUS_CSV_FILE_WRONG_DELIMITER = "/home/akanksha/PycharmProjects/CensusAnalyzer/Data/USCensusDataDelimiter.csv"
-
-
-# check if length of records is same or not
-def test_record_counter():
-    csv_loader = CSVLoader(CENSUS_CSV_FILE_PATH)
-    assert csv_loader.load_census_data() == 29
+CENSUS_CSV_FILE_PATH = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/Resources/IndiaStateCensusData.csv"
+CENSUS_CSV_FILE_WRONG_PATH = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/WRONG-Resources/IndiaStateCensusData.csv"
+CENSUS_CSV_FILE_WRONG_TYPE = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/Resources/IndiaStateCensusData.txt"
+CENSUS_CSV_FILE_WRONG_DELIMITER = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/Resources/IndiaStateCensusData_WrongDelimiter.csv"
+STATE_CODE_CSV_FILE_PATH = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/Resources/IndiaStateCode.csv"
+STATE_CODE_CSV_FILE_WRONG_PATH = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/WRONG-Resources/IndiaStateCode.csv"
+STATE_CODE_CSV_FILE_WRONG_TYPE = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/Resources/IndiaStateCode.txt"
+STATE_CODE_CSV_FILE_WRONG_DELIMITER = "/home/akanksha/Akanksha/Python FullStack/Census-Analyser/Resources/IndiaStateCodeWrongDelimiter.csv"
 
 
-# Check if exception gets raised or not
-def test_record_counter_for_wrong_file_path():
-    csv_loader = CSVLoader(CENSUS_CSV_FILE_WRONG_PATH)
+def test_givenIndiaCensusCSVFile_WhenCounted_ShouldReturnRecordsCount():
+    census_analyser = CensusAnalyser(CENSUS_CSV_FILE_PATH)
+    assert census_analyser.census_record_counter() == 29
+
+
+def test_givenIndiaCensusCSVFile_WhenWrongPath_ShouldRaiseException():
+    census_analyser = CensusAnalyser(CENSUS_CSV_FILE_WRONG_PATH)
     with pytest.raises(CensusAnalyserError):
-        csv_loader.load_census_data()
+        assert census_analyser.census_record_counter()
 
 
-# Check if exception gets raised or not
-def test_record_counter_for_wrong_file_type():
-    csv_loader = CSVLoader(CENSUS_CSV_FILE_WRONG_TYPE)
+def test_givenIndiaCensusCSVFile_WhenWrongFileType_ShouldRaiseException():
+    census_analyser = CensusAnalyser(CENSUS_CSV_FILE_WRONG_TYPE)
     with pytest.raises(CensusAnalyserError):
-        csv_loader.load_census_data()
+        assert census_analyser.census_record_counter()
 
 
-# Check if exception gets raised or not
-# NOTE - Change delimiter of the file and save it
-def test_record_counter_for_wrong_delimiter():
-    csv_loader = CSVLoader(CENSUS_CSV_FILE_WRONG_DELIMITER)
+def test_givenIndiaCensusCSVFile_WhenDelimiterWrong_ShouldRaiseException():
+    census_analyser = CensusAnalyser(CENSUS_CSV_FILE_WRONG_DELIMITER)
     with pytest.raises(CensusAnalyserError):
-        csv_loader.load_census_data()
+        assert census_analyser.census_record_counter()
 
 
+def test_givenIndiaCensusCSVFile_WhenHeadersWrong_ShouldRaiseException():
+    census_analyser = CensusAnalyser(STATE_CODE_CSV_FILE_PATH)
+    with pytest.raises(CensusAnalyserError):
+        assert census_analyser.census_record_counter()
+
+
+def test_givenStateCodeCSVFile_WhenLoaded_ShouldReturnRecordsCount():
+    census_analyser = CensusAnalyser(STATE_CODE_CSV_FILE_PATH)
+    assert census_analyser.state_code_record_counter() == 37
+
+
+def test_givenStateCodeCSVFile_WhenPathWrong_ShouldRaiseException():
+    census_analyser = CensusAnalyser(STATE_CODE_CSV_FILE_WRONG_PATH)
+    with pytest.raises(CensusAnalyserError):
+        assert census_analyser.state_code_record_counter()
+
+
+def test_givenStateCodeCSVFile_WhenFileTypeWrong_ShouldRaiseException():
+    census_analyser = CensusAnalyser(STATE_CODE_CSV_FILE_WRONG_TYPE)
+    with pytest.raises(CensusAnalyserError):
+        assert census_analyser.state_code_record_counter()
+
+
+def test_givenStateCodeCSVFile_WhenDelimiterWrong_ShouldRaiseException():
+    census_analyser = CensusAnalyser(STATE_CODE_CSV_FILE_WRONG_DELIMITER)
+    with pytest.raises(CensusAnalyserError):
+        assert census_analyser.state_code_record_counter()
+
+
+def test_givenStateCodeCSVFile_WhenHeadersWrong_ShouldRaiseException():
+    census_analyser = CensusAnalyser(CENSUS_CSV_FILE_PATH)
+    with pytest.raises(CensusAnalyserError):
+        assert census_analyser.state_code_record_counter()
 
