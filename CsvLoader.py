@@ -6,32 +6,29 @@ from IndianCensusCSV import IndiaCensusCSV, StateCensusCSV
 
 class CSVLoader:
 
-    def __init__(self, path):
-        self.path = path
-
-    def load_census_data(self):
+    def load_indian_census_data(path):
         """
         Load census data and return number of 
         :return: number of records in file
         """
         try:
             census_col_list = repr(IndiaCensusCSV()).split(",")
-            census_data = pd.read_csv(self.path, usecols=census_col_list)
-            return len(census_data)
+            census_data_list = pd.read_csv(path, usecols=census_col_list)
+            return census_data_list
         except FileNotFoundError:
             raise CensusAnalyserError("Check file path")
         except ValueError:
             raise CensusAnalyserError("Wrong delimiter Or Headers do not match")
 
-    def load_state_census_data(self):
+    def load_state_code_data(path):
         """
         Load state census data and return number of
         :return: number of records in file
         """
         try:
             state_col_list = repr(StateCensusCSV()).split(",")
-            state_data = pd.read_csv(self.path, usecols=state_col_list)
-            return len(state_data)
+            state_data_list = pd.read_csv(path, usecols=state_col_list)
+            return state_data_list
         except FileNotFoundError:
             raise CensusAnalyserError("Check file path")
         except ValueError:
