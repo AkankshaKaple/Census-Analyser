@@ -1,6 +1,6 @@
 from CsvLoader import CSVLoader
 import pandas as pd
-from IndianCensusCSV import IndiaCensusCSV
+from IndianCensusCSV import IndiaCensusCSV, StateCensusCSV
 
 
 class CensusAnalyser:
@@ -17,11 +17,12 @@ class CensusAnalyser:
         CensusAnalyser.__data_list = CSVLoader.load_state_code_data(self.path)
         return len(CensusAnalyser.__data_list)
 
-    @classmethod
-    def sort_by_state(cls):
-        CensusAnalyser.__data_list.sort_values(by=[IndiaCensusCSV().state], inplace=True)
+    def sort_by_state(self):
+        CensusAnalyser.__data_list.sort_values(by=IndiaCensusCSV().state, inplace=True)
         return CensusAnalyser.__data_list.to_json(orient='records')
 
-
+    def sort_by_stateCode(self):
+        CensusAnalyser.__data_list.sort_values(by=StateCensusCSV().state_code, inplace=True)
+        return CensusAnalyser.__data_list.to_json(orient='records')
 
 
