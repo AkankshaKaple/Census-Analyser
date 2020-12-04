@@ -7,3 +7,11 @@ class IndiaCensusCSV:
 
     def __repr__(self):
         return self.state + "," + self.population + "," + self.density + "," + self.area
+
+class StateCensusCSV:
+    def __init__(self):
+        self.state = "State Name"
+        self.state_code = "StateCode"
+
+    def __repr__(self):
+        return self.state + "," + self.state_code
